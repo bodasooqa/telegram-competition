@@ -1,18 +1,20 @@
 <template>
     <div>
-        <line-chart v-if="componentState" :chart-data="chartData" :height="200" :options="options"></line-chart>
+
+        <line-chart class="chart" v-if="componentState" :chart-data="chartData" :height="100" :options="options"></line-chart>
 
         <div style="display: flex">
-            <button @click="legendLeft"><</button>
-            <button @click="leftMinusLegend">-</button>
-            <button @click="leftPlusLegend">+</button>
+            <button @click="doEvent('legendLeft')"><</button>
+            <button @click="doEvent('leftMinusLegend')">-</button>
+            <button @click="doEvent('leftPlusLegend')">+</button>
             <input v-model="legend.range.left" type="text">
             <input :value="legend.range.right - legend.range.left" type="text">
             <input v-model="legend.range.right" type="text">
-            <button @click="rightMinusLegend">-</button>
-            <button @click="rightPlusLegend">+</button>
-            <button @click="legendRight">></button>
+            <button @click="doEvent('rightMinusLegend')">-</button>
+            <button @click="doEvent('rightPlusLegend')">+</button>
+            <button @click="doEvent('legendRight')">></button>
         </div>
+
     </div>
 </template>
 
@@ -27,7 +29,7 @@
         },
         data() {
             return {
-                componentState: true
+                componentState: true,
             }
         },
         computed: {
@@ -36,8 +38,12 @@
         methods: {
             ...mapActions(['leftMinusLegend', 'leftPlusLegend', 'rightMinusLegend', 'rightPlusLegend', 'legendRight', 'legendLeft']),
             ...mapMutations(['setData', 'setColor']),
-            changeColor() {
-                this.setColor();
+            doEvent(eventName) {
+                this[eventName]();
+                this.componentState = false;
+                this.$nextTick().then(() => {
+                    this.componentState = true;
+                });
             }
         },
         created() {
@@ -48,5 +54,11 @@
 </script>
 
 <style scoped>
-
+    .chart {
+        border: 1px solid #e4e4e4;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 2rem;
+        transition: all 0.3s;
+    }
 </style>

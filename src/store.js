@@ -122,12 +122,16 @@ export default new Vuex.Store({
       if (state.legend.range.left > 0) state.legend.range.left--;
     },
     legendRight(state) {
-      state.legend.range.left++;
-      state.legend.range.right++;
+      if (state.legend.range.right < state.formattedData.labels.length) {
+        state.legend.range.left++;
+        state.legend.range.right++;
+      }
     },
     legendLeft(state) {
-      state.legend.range.left--;
-      state.legend.range.right--;
+      if (state.legend.range.left > 0) {
+        state.legend.range.left--;
+        state.legend.range.right--;
+      }
     }
   },
   actions: {

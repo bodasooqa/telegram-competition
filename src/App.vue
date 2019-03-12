@@ -1,6 +1,12 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{ 'night': !bgMode }">
     <line-chart-component></line-chart-component>
+    <div class="select">
+      <label class="slider">
+        <input v-model="bgMode" type="checkbox" id="check">
+        <span class="circle"></span>
+      </label>
+    </div>
   </div>
 </template>
 
@@ -12,6 +18,11 @@ export default {
   components: {
     LineChartComponent
   },
+  data() {
+    return {
+      bgMode: true
+    }
+  },
   mounted() {
     console.log(this.data);
   }
@@ -19,5 +30,89 @@ export default {
 </script>
 
 <style lang="scss">
+  body {
+    margin: auto;
+  }
 
+  #app {
+    padding: 15px;
+    transition: all 0.3s;
+    height: calc(100vh - 30px);
+  }
+
+  .night {
+    background-color: rgb(33, 37, 36);
+    .chart {
+      border: 1px solid #444444;
+    }
+  }
+  
+  div.select {
+    display: flex;
+    justify-content: center;
+  }
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  input[type="checkbox"]:checked + span.circle {
+    left: 16px;
+    background-color: #FABC62;
+    box-shadow: 0 0 40px 0 #FABC62;
+  }
+  input[type="checkbox"]:checked + span.circle::before, input[type="checkbox"]:checked + span.circle::after {
+    background-color: rgba(250, 188, 98, 0);
+  }
+  label.slider {
+    margin-top: 2rem;
+    border: 2px solid #06121C;
+    border-radius: 100px;
+    width: 32px;
+    height: 16px;
+    position: relative;
+    background-color: #06121C;
+    box-sizing: content-box;
+    z-index: 1;
+    /*overflow: hidden; Add if using span.circle::before */
+    transition: border .3s, background-color .3s, box-shadow .3s;
+    cursor: pointer;
+  }
+  label.slider.isChecked {
+    border: 6px solid #167694;
+    background-color: #167694;
+  }
+  label.slider:hover {
+    box-shadow: 0 0 6px rgba(239, 239, 239, 0.32);
+  }
+  span.circle {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: #FEFAF4;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    transition: left .3s, background-color .7s, box-shadow .3s;
+    box-shadow: 0 0 20px 0 #FEFAF4;
+  }
+  span.circle::before, span.circle::after {
+    content: '';
+    background-color: #dcd8d3;
+    position: absolute;
+    border-radius: 50%;
+    transition: background-color .7s;
+  }
+  span.circle::before {
+    height: 2px;
+    width: 2px;
+    bottom: 2.5px;
+    right: 5px;
+  }
+  span.circle::after {
+    height: 3px;
+    width: 3px;
+    bottom: 5px;
+    right: 2.5px;
+  }
 </style>
