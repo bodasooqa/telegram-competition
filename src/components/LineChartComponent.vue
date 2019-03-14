@@ -1,6 +1,6 @@
 <template>
     <div>
-        <line-chart class="chart" v-if="componentState" :chart-data="chartData" :height="600" :options="options"></line-chart>
+        <line-chart class="chart" v-if="componentState" :chart-data="chartData" :height="chartHeight" :options="options"></line-chart>
 
         <vue-slider @change="doChangeAll(legend.range.all)" :min-range="10" :max="formattedData.labels.length"
                     tooltip="none" v-model="legend.range.all"></vue-slider>
@@ -22,10 +22,23 @@
         data() {
             return {
                 componentState: true,
+                window: {
+                    width: 1000,
+                    height: null
+                }
             }
         },
         computed: {
-            ...mapGetters(['data', 'chartData', 'options', 'legend', 'formattedData'])
+            ...mapGetters(['data', 'chartData', 'options', 'legend', 'formattedData']),
+            chartHeight() {
+                let height = 0;
+                if (this.window.width < 415) {
+                    height = 400;
+                } else {
+                    height = 100;
+                }
+                return height;
+            }
         },
         methods: {
             ...mapActions(['changeAll']),
@@ -36,10 +49,19 @@
                 this.$nextTick().then(() => {
                     this.componentState = true;
                 });
+            },
+            handleResize() {
+                this.window.width = window.innerWidth;
+                this.window.height = window.innerHeight;
             }
         },
         created() {
+            window.addEventListener('resize', this.handleResize);
+            this.handleResize();
             this.setData();
+        },
+        destroyed() {
+            window.removeEventListener('resize', this.handleResize)
         }
     }
 </script>
