@@ -23,9 +23,6 @@ export default {
     return {
       bgMode: true
     }
-  },
-  mounted() {
-    console.log(this.data);
   }
 }
 </script>
@@ -48,10 +45,6 @@ export default {
     }
   }
 
-  .chart-component {
-    max-height: 70vh;
-  }
-
   .night {
     background-color: rgb(33, 37, 36);
     .chart {
@@ -67,7 +60,7 @@ export default {
     justify-content: center;
   }
 
-  input[type="checkbox"] {
+  #check {
     display: none;
   }
 

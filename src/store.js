@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 import moment from 'moment';
 
 import data from './assets/chart_data'
-import testData from './assets/test_data';
 
 Vue.use(Vuex);
 
@@ -45,7 +44,6 @@ export default new Vuex.Store({
         all: null
       }
     },
-    testData: testData
   },
   getters: {
     data(state) {
@@ -53,9 +51,6 @@ export default new Vuex.Store({
     },
     options(state) {
       return state.options;
-    },
-    testData(state) {
-      return state.testData;
     },
     formattedData(state) {
       return state.formattedData;
