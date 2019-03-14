@@ -10,19 +10,17 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     data: data,
-
     options: {
       responsive: true,
       maintainAspectRation: true,
-      legend: false
+      legend: false,
+      animation: false
     },
-
     formattedData: {
       labels: null,
       y0: null,
       y1: null
     },
-
     chartData: {
       labels: null,
       datasets: [
@@ -40,14 +38,13 @@ export default new Vuex.Store({
         },
       ]
     },
-
     legend: {
       range: {
         left: 50,
-        right: 60
+        right: 60,
+        all: null
       }
     },
-
     testData: testData
   },
   getters: {
@@ -72,6 +69,8 @@ export default new Vuex.Store({
   },
   mutations: {
     setData(state) {
+      state.legend.range.all = [state.legend.range.left, state.legend.range.right];
+
       state.formattedData.labels = data[0].columns[0].filter(item => {
         if (item !== 'x') {
           return item;
@@ -158,6 +157,32 @@ export default new Vuex.Store({
     legendLeft(context) {
       context.commit('legendLeft');
       context.commit('updateChartData');
+    },
+    changeAll(context, payload) {
+      let left = context.state.legend.range.left;
+      let right = context.state.legend.range.right;
+      context.state.legend.range.left = payload[0];
+      context.state.legend.range.right = payload[1];
+
+      if (context.state.legend.range.left < left && context.state.legend.range.right < right) {
+        context.commit('legendLeft');
+        context.commit('updateChartData');
+      } else if (context.state.legend.range.left < left && context.state.legend.range.right === right) {
+        context.commit('leftMinusLegend');
+        context.commit('updateChartData');
+      } else if (context.state.legend.range.left > left && context.state.legend.range.right === right) {
+        context.commit('leftPlusLegend');
+        context.commit('updateChartData');
+      } else if (context.state.legend.range.left === left && context.state.legend.range.right > right) {
+        context.commit('rightPlusLegend');
+        context.commit('updateChartData');
+      } else if (context.state.legend.range.left === left && context.state.legend.range.right < right) {
+        context.commit('rightMinusLegend');
+        context.commit('updateChartData');
+      } else if (context.state.legend.range.left > left && context.state.legend.range.right > right) {
+        context.commit('legendRight');
+        context.commit('updateChartData');
+      }
     }
   }
 })

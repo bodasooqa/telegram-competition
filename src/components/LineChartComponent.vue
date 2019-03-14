@@ -1,20 +1,9 @@
 <template>
     <div>
+        <line-chart class="chart" v-if="componentState" :chart-data="chartData" :height="600" :options="options"></line-chart>
 
-        <line-chart class="chart" v-if="componentState" :chart-data="chartData" :height="100" :options="options"></line-chart>
-
-        <div style="display: flex">
-            <button @click="doEvent('legendLeft')"><</button>
-            <button @click="doEvent('leftMinusLegend')">-</button>
-            <button @click="doEvent('leftPlusLegend')">+</button>
-            <input v-model="legend.range.left" type="text">
-            <input :value="legend.range.right - legend.range.left" type="text">
-            <input v-model="legend.range.right" type="text">
-            <button @click="doEvent('rightMinusLegend')">-</button>
-            <button @click="doEvent('rightPlusLegend')">+</button>
-            <button @click="doEvent('legendRight')">></button>
-        </div>
-
+        <vue-slider @change="doChangeAll(legend.range.all)" :min-range="10" :max="formattedData.labels.length"
+                    tooltip="none" v-model="legend.range.all"></vue-slider>
     </div>
 </template>
 
@@ -22,10 +11,13 @@
     import LineChart from './LineChart';
     import {mapActions, mapGetters, mapMutations} from "vuex";
 
+    import VueSlider from 'vue-slider-component'
+    import 'vue-slider-component/theme/default.css'
+
     export default {
         name: "LineChartComponent",
         components: {
-            LineChart
+            LineChart, VueSlider
         },
         data() {
             return {
@@ -33,13 +25,13 @@
             }
         },
         computed: {
-            ...mapGetters(['testData', 'data', 'chartData', 'options', 'legend'])
+            ...mapGetters(['data', 'chartData', 'options', 'legend', 'formattedData'])
         },
         methods: {
-            ...mapActions(['leftMinusLegend', 'leftPlusLegend', 'rightMinusLegend', 'rightPlusLegend', 'legendRight', 'legendLeft']),
-            ...mapMutations(['setData', 'setColor']),
-            doEvent(eventName) {
-                this[eventName]();
+            ...mapActions(['changeAll']),
+            ...mapMutations(['setData']),
+            doChangeAll(all) {
+                this.changeAll(all);
                 this.componentState = false;
                 this.$nextTick().then(() => {
                     this.componentState = true;
@@ -48,7 +40,6 @@
         },
         created() {
             this.setData();
-            console.log(this.data);
         }
     }
 </script>
@@ -60,5 +51,8 @@
         border-radius: 5px;
         margin-bottom: 2rem;
         transition: all 0.3s;
+    }
+    .vue-slider {
+        padding: 7px 8px !important;
     }
 </style>

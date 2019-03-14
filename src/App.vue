@@ -1,6 +1,7 @@
 <template>
   <div id="app" :class="{ 'night': !bgMode }">
-    <line-chart-component></line-chart-component>
+    <h2>Followers</h2>
+    <line-chart-component class="chart-component"></line-chart-component>
     <div class="select">
       <label class="slider">
         <input v-model="bgMode" type="checkbox" id="check">
@@ -30,20 +31,34 @@ export default {
 </script>
 
 <style lang="scss">
+  @import url('https://fonts.googleapis.com/css?family=Open+Sans:600');
+
   body {
     margin: auto;
+    font-family: 'Open Sans', sans-serif;
   }
 
   #app {
     padding: 15px;
     transition: all 0.3s;
     height: calc(100vh - 30px);
+
+    button {
+      background: none;
+    }
+  }
+
+  .chart-component {
+    max-height: 70vh;
   }
 
   .night {
     background-color: rgb(33, 37, 36);
     .chart {
       border: 1px solid #444444;
+    }
+    h2 {
+      color: #ffffff;
     }
   }
   
