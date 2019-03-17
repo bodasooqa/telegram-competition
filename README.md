@@ -1,29 +1,28 @@
-# telegram
+# Telegram-competition
 
-## Project setup
+#### Project description and setup
+
+The project was written as an assignment for the Telegrams's competition.
+This application is a linear diagram and management of its display.
+It's written on Vue.js + Vuex.
+
+Installing dependencies:
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+#### Compiles and hot-reloads for development
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+#### Compiles and minifies for production
 ```
 npm run build
 ```
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
+#### Lints and fixes files
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
