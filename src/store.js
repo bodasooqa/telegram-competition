@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import moment from 'moment';
 
-import data from './assets/chart_data'
+import data from './assets/chart_data';
 
 Vue.use(Vuex);
 
@@ -27,13 +27,15 @@ export default new Vuex.Store({
           data: null,
           lineTension: 0,
           fill: false,
-          pointRadius: 0
+          pointRadius: 0,
+          hidden: false
         },
         {
           data: null,
           lineTension: 0,
           fill: false,
-          pointRadius: 0
+          pointRadius: 0,
+          hidden: false
         },
       ]
     },
@@ -43,7 +45,7 @@ export default new Vuex.Store({
         right: 60,
         all: null
       }
-    },
+    }
   },
   getters: {
     data(state) {
@@ -76,8 +78,6 @@ export default new Vuex.Store({
         return moment(item).format('MMM D');
       });
 
-      state.chartData.labels = state.formattedData.labels.slice(state.legend.range.left, state.legend.range.right);
-
       state.formattedData.y0 = data[0].columns[1].filter(item => {
         if (item !== 'y0') {
           return item;
@@ -89,6 +89,9 @@ export default new Vuex.Store({
           return item;
         }
       });
+
+      // Chart Data settings
+      state.chartData.labels = state.formattedData.labels.slice(state.legend.range.left, state.legend.range.right);
 
       state.chartData.datasets[0].data = state.formattedData.y0.slice(state.legend.range.left, state.legend.range.right);
       state.chartData.datasets[1].data = state.formattedData.y1.slice(state.legend.range.left, state.legend.range.right);
@@ -129,30 +132,6 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    rightPlusLegend(context) {
-      context.commit('rightPlusLegend');
-      context.commit('updateChartData');
-    },
-    rightMinusLegend(context) {
-      context.commit('rightMinusLegend');
-      context.commit('updateChartData');
-    },
-    leftPlusLegend(context) {
-      context.commit('leftPlusLegend');
-      context.commit('updateChartData');
-    },
-    leftMinusLegend(context) {
-      context.commit('leftMinusLegend');
-      context.commit('updateChartData');
-    },
-    legendRight(context) {
-      context.commit('legendRight');
-      context.commit('updateChartData');
-    },
-    legendLeft(context) {
-      context.commit('legendLeft');
-      context.commit('updateChartData');
-    },
     changeAll(context, payload) {
       let left = context.state.legend.range.left;
       let right = context.state.legend.range.right;
@@ -161,23 +140,19 @@ export default new Vuex.Store({
 
       if (context.state.legend.range.left < left && context.state.legend.range.right < right) {
         context.commit('legendLeft');
-        context.commit('updateChartData');
       } else if (context.state.legend.range.left < left && context.state.legend.range.right === right) {
         context.commit('leftMinusLegend');
-        context.commit('updateChartData');
       } else if (context.state.legend.range.left > left && context.state.legend.range.right === right) {
         context.commit('leftPlusLegend');
-        context.commit('updateChartData');
       } else if (context.state.legend.range.left === left && context.state.legend.range.right > right) {
         context.commit('rightPlusLegend');
-        context.commit('updateChartData');
       } else if (context.state.legend.range.left === left && context.state.legend.range.right < right) {
         context.commit('rightMinusLegend');
-        context.commit('updateChartData');
       } else if (context.state.legend.range.left > left && context.state.legend.range.right > right) {
         context.commit('legendRight');
-        context.commit('updateChartData');
       }
+
+      context.commit('updateChartData');
     }
   }
 })

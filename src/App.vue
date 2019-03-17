@@ -1,13 +1,15 @@
 <template>
   <div id="app" :class="{ 'night': !bgMode }">
-    <h2>Followers</h2>
-    <line-chart-component class="chart-component"></line-chart-component>
-    <div class="select">
-      <label class="slider">
-        <input v-model="bgMode" type="checkbox" id="check">
-        <span class="circle"></span>
-      </label>
+    <div class="header">
+      <h2>Followers</h2>
+      <div class="select">
+        <label class="slider">
+          <input v-model="bgMode" type="checkbox" id="check">
+          <span class="circle"></span>
+        </label>
+      </div>
     </div>
+    <line-chart-component class="chart-component"></line-chart-component>
   </div>
 </template>
 
@@ -45,6 +47,11 @@ export default {
     }
   }
 
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .night {
     background-color: rgb(33, 37, 36);
     .chart {
@@ -53,24 +60,43 @@ export default {
     h2 {
       color: #ffffff;
     }
+    .first label.slider, .second label.slider {
+      background-color: #0e1010;
+      border: 2px solid #0e1010;
+      .name {
+        color: #fff;
+      }
+    }
   }
   
   div.select {
     display: flex;
-    justify-content: center;
+    &.first, &.second {
+      width: 130px;
+    }
   }
 
-  #check {
+  #check, #first, #second {
     display: none;
   }
-
-  input[type="checkbox"]:checked + span.circle {
-    left: 16px;
-    background-color: #FABC62;
-    box-shadow: 0 0 40px 0 #FABC62;
+  input[type="checkbox"] {
+    &#first:checked, &#second:checked {
+      & + span.circle {
+        left: 0;
+      }
+    }
   }
-  input[type="checkbox"]:checked + span.circle::before, input[type="checkbox"]:checked + span.circle::after {
-    background-color: rgba(250, 188, 98, 0);
+  input[type="checkbox"]:checked {
+    & + span.circle {
+      left: 16px;
+      background-color: #FABC62;
+      box-shadow: 0 0 40px 0 #FABC62;
+    }
+  }
+  input[type="checkbox"]:checked {
+    & + span.circle::before, & + span.circle::after {
+      background-color: rgba(250, 188, 98, 0);
+    }
   }
   label.slider {
     margin-top: 2rem;
@@ -82,16 +108,41 @@ export default {
     background-color: #06121C;
     box-sizing: content-box;
     z-index: 1;
-    /*overflow: hidden; Add if using span.circle::before */
     transition: border .3s, background-color .3s, box-shadow .3s;
     cursor: pointer;
   }
-  label.slider.isChecked {
-    border: 6px solid #167694;
-    background-color: #167694;
+  .first label.slider, .second label.slider {
+    background-color: #e6e6e6;
+    border: 2px solid #e6e6e6;
+    & span.circle {
+      left: 16px;
+      background-color: #ffffff;
+      box-shadow: 0 0 40px 0 #ffffff;
+      &::before, &::after {
+        background: none;
+      }
+    }
   }
-  label.slider:hover {
-    box-shadow: 0 0 6px rgba(239, 239, 239, 0.32);
+  .first label.slider span.circle {
+    border: 1px solid #3DC23F;
+    width: 14px;
+    height: 14px;
+    box-shadow: 0 0 40px 0 #3DC23F;
+  }
+  .second label.slider span.circle {
+    border: 1px solid #F34C44;
+    width: 14px;
+    height: 14px;
+    box-shadow: 0 0 40px 0 #F34C44;
+  }
+  label.slider {
+    &.isChecked {
+      border: 6px solid #167694;
+      background-color: #167694;
+    }
+    &:hover {
+      box-shadow: 0 0 6px rgba(239, 239, 239, 0.32);
+    }
   }
   span.circle {
     position: absolute;
@@ -103,24 +154,29 @@ export default {
     left: 0;
     transition: left .3s, background-color .7s, box-shadow .3s;
     box-shadow: 0 0 20px 0 #FEFAF4;
+    &::before, &::after {
+      content: '';
+      background-color: #dcd8d3;
+      position: absolute;
+      border-radius: 50%;
+      transition: background-color .7s;
+    }
+    &::before {
+      height: 2px;
+      width: 2px;
+      bottom: 2.5px;
+      right: 5px;
+    }
+    &::after {
+      height: 3px;
+      width: 3px;
+      bottom: 5px;
+      right: 2.5px;
+    }
   }
-  span.circle::before, span.circle::after {
-    content: '';
-    background-color: #dcd8d3;
+  span.name {
     position: absolute;
-    border-radius: 50%;
-    transition: background-color .7s;
-  }
-  span.circle::before {
-    height: 2px;
-    width: 2px;
-    bottom: 2.5px;
-    right: 5px;
-  }
-  span.circle::after {
-    height: 3px;
-    width: 3px;
-    bottom: 5px;
-    right: 2.5px;
+    top: -3px;
+    left: 2.8rem;
   }
 </style>

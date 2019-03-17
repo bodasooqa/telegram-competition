@@ -1,12 +1,27 @@
 <template>
     <div>
-        <line-chart class="chart" v-if="componentState" :chart-data="sortedData" :height="chartHeight" :options="options"></line-chart>
+        <line-chart class="chart" v-if="componentState" :chart-data="chartData" :height="chartHeight" :options="options"></line-chart>
 
         <vue-slider @change="doChangeAll(legend.range.all)" :min-range="10" :max="formattedData.labels.length"
                     tooltip="none" v-model="legend.range.all"></vue-slider>
 
-        <input @change="changeSortedData" type="checkbox" v-model="firstChart">
-        <input @change="changeSortedData" type="checkbox" v-model="secondChart">
+        <div class="d-flex">
+            <div class="select first">
+                <label class="slider">
+                    <input @change="updateComp" id="first" type="checkbox" v-model="chartData.datasets[0].hidden">
+                    <span class="circle"></span>
+                    <span class="name">Joined</span>
+                </label>
+            </div>
+            <div class="select second">
+                <label class="slider">
+                    <input @change="updateComp" id="second" type="checkbox" v-model="chartData.datasets[1].hidden">
+                    <span class="circle"></span>
+                    <span class="name">Left</span>
+                </label>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -43,19 +58,6 @@
                     height = 100;
                 }
                 return height;
-            },
-            sortedData() {
-                let data = this.chartData;
-                if (this.firstChart && this.secondChart) {
-                    data = this.chartData;
-                } else if (this.firstChart && !this.secondChart) {
-                    data = this.chartData;
-                    data.datasets = this.chartData.datasets.slice(1,2);
-                } else if (!this.firstChart && this.secondChart) {
-                    data = this.chartData;
-                    data.datasets = this.chartData.datasets.slice(0,1);
-                }
-                return data;
             }
         },
         methods: {
@@ -68,9 +70,6 @@
             handleResize() {
                 this.window.width = window.innerWidth;
                 this.window.height = window.innerHeight;
-            },
-            changeSortedData() {
-                this.updateComp();
             },
             updateComp() {
                 this.componentState = false;
@@ -90,13 +89,16 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .chart {
         border: 1px solid #e4e4e4;
         padding: 15px;
         border-radius: 5px;
         margin-bottom: 2rem;
         transition: all 0.3s;
+    }
+    .d-flex {
+        display: flex;
     }
     .vue-slider {
         padding: 7px 8px !important;
