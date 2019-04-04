@@ -14,6 +14,7 @@
     <line-chart-component class="chart-component" :id="1"></line-chart-component>
     <line-chart-component class="chart-component" :id="2"></line-chart-component>
     <line-chart-component class="chart-component" :id="3"></line-chart-component>
+    <line-chart-component class="chart-component" :id="4"></line-chart-component>
 
     <footer>
       Made by Bodasooqa for Telegram
@@ -66,6 +67,11 @@ export default {
     margin-bottom: 2rem;
     padding-bottom: 2rem;
     border-bottom: 1px solid #e4e4e4;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
   }
 
   footer {
@@ -101,6 +107,9 @@ export default {
     footer {
       color: #ffffff;
     }
+    .chart-component {
+      border-bottom: 1px solid #444444;
+    }
   }
   
   div.select {
@@ -110,11 +119,11 @@ export default {
     }
   }
 
-  #check, #first, #second {
+  #check, #first, #second, #third, #fourth {
     display: none;
   }
   input[type="checkbox"] {
-    &#first:checked, &#second:checked {
+    &#first:checked, &#second:checked, &#third:checked, &#fourth:checked {
       & + span.circle {
         left: 0;
       }
@@ -157,17 +166,49 @@ export default {
       }
     }
   }
-  .first label.slider span.circle {
-    border: 1px solid #3DC23F;
-    width: 14px;
-    height: 14px;
-    box-shadow: 0 0 40px 0 #3DC23F;
+  .first {
+    label.slider span.circle {
+      border: 1px solid #3DC23F;
+      width: 14px;
+      height: 14px;
+      box-shadow: 0 0 40px 0 #3DC23F;
+    }
+    &.last {
+      label.slider span.circle {
+        border: 1px solid #cb513a;
+        box-shadow: 0 0 40px 0 #cb513a;
+      }
+    }
   }
-  .second label.slider span.circle {
-    border: 1px solid #F34C44;
-    width: 14px;
-    height: 14px;
-    box-shadow: 0 0 40px 0 #F34C44;
+  .second {
+    label.slider span.circle {
+      border: 1px solid #F34C44;
+      width: 14px;
+      height: 14px;
+      box-shadow: 0 0 40px 0 #F34C44;
+    }
+    &.last {
+      label.slider span.circle {
+        border: 1px solid #73c03a;
+        box-shadow: 0 0 40px 0 #73c03a;
+      }
+    }
+  }
+  .third {
+    label.slider span.circle {
+      border: 1px solid #65b9ac;
+      width: 14px;
+      height: 14px;
+      box-shadow: 0 0 40px 0 #65b9ac;
+    }
+  }
+  .fourth {
+    label.slider span.circle {
+      border: 1px solid #4682b4;
+      width: 14px;
+      height: 14px;
+      box-shadow: 0 0 40px 0 #4682b4;
+    }
   }
   label.slider {
     &.isChecked {

@@ -35,6 +35,13 @@ export default new Vuex.Store({
       y0: null,
       y1: null
     },
+    formattedData4: {
+      labels: null,
+      y0: null,
+      y1: null,
+      y2: null,
+      y3: null
+    },
     chartData0: {
       labels: null,
       datasets: [
@@ -111,6 +118,39 @@ export default new Vuex.Store({
         },
       ]
     },
+    chartData4: {
+      labels: null,
+      datasets: [
+        {
+          data: null,
+          lineTension: 0,
+          fill: false,
+          pointRadius: 0,
+          hidden: false
+        },
+        {
+          data: null,
+          lineTension: 0,
+          fill: false,
+          pointRadius: 0,
+          hidden: false
+        },
+        {
+          data: null,
+          lineTension: 0,
+          fill: false,
+          pointRadius: 0,
+          hidden: false
+        },
+        {
+          data: null,
+          lineTension: 0,
+          fill: false,
+          pointRadius: 0,
+          hidden: false
+        }
+      ]
+    },
     legend0: {
       range: {
         left: 50,
@@ -138,6 +178,13 @@ export default new Vuex.Store({
         right: 60,
         all: null
       }
+    },
+    legend4: {
+      range: {
+        left: 50,
+        right: 60,
+        all: null
+      }
     }
   },
   getters: {
@@ -159,6 +206,9 @@ export default new Vuex.Store({
     formattedData3(state) {
       return state.formattedData3;
     },
+    formattedData4(state) {
+      return state.formattedData4;
+    },
     chartData0(state) {
       return state.chartData0;
     },
@@ -171,6 +221,9 @@ export default new Vuex.Store({
     chartData3(state) {
       return state.chartData3;
     },
+    chartData4(state) {
+      return state.chartData4;
+    },
     legend0(state) {
       return state.legend0;
     },
@@ -182,13 +235,16 @@ export default new Vuex.Store({
     },
     legend3(state) {
       return state.legend3;
+    },
+    legend4(state) {
+      return state.legend4;
     }
   },
   mutations: {
     setData(state, id) {
       state[`legend${id}`].range.all = [state[`legend${id}`].range.left, state[`legend${id}`].range.right];
 
-      state[`formattedData${id}`].labels = data[id].columns[0].filter(item => {
+      state[`formattedData${id}`].labels = state.data[id].columns[0].filter(item => {
         if (item !== 'x') {
           return item;
         }
@@ -198,17 +254,31 @@ export default new Vuex.Store({
         return moment(item).format('MMM D');
       });
 
-      state[`formattedData${id}`].y0 = data[id].columns[1].filter(item => {
+      state[`formattedData${id}`].y0 = state.data[id].columns[1].filter(item => {
         if (item !== 'y0') {
           return item;
         }
       });
 
-      state[`formattedData${id}`].y1 = data[id].columns[2].filter(item => {
+      state[`formattedData${id}`].y1 = state.data[id].columns[2].filter(item => {
         if (item !== 'y1') {
           return item;
         }
       });
+
+      if (id === 4) {
+        state[`formattedData${id}`].y2 = state.data[id].columns[3].filter(item => {
+          if (item !== 'y2') {
+            return item;
+          }
+        });
+
+        state[`formattedData${id}`].y3 = state.data[id].columns[4].filter(item => {
+          if (item !== 'y3') {
+            return item;
+          }
+        });
+      }
 
       // Chart Data settings
       state[`chartData${id}`].labels = state[`formattedData${id}`].labels.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
@@ -216,15 +286,30 @@ export default new Vuex.Store({
       state[`chartData${id}`].datasets[0].data = state[`formattedData${id}`].y0.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
       state[`chartData${id}`].datasets[1].data = state[`formattedData${id}`].y1.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
 
-      state[`chartData${id}`].datasets[0].borderColor = data[id].colors['y0'];
-      state[`chartData${id}`].datasets[1].borderColor = data[id].colors['y1'];
-      state[`chartData${id}`].datasets[0].label = data[id].names['y0'];
-      state[`chartData${id}`].datasets[1].label = data[id].names['y1'];
+      state[`chartData${id}`].datasets[0].borderColor = state.data[id].colors['y0'];
+      state[`chartData${id}`].datasets[1].borderColor = state.data[id].colors['y1'];
+      state[`chartData${id}`].datasets[0].label = state.data[id].names['y0'];
+      state[`chartData${id}`].datasets[1].label = state.data[id].names['y1'];
+
+      if (id === 4) {
+        state[`chartData${id}`].datasets[2].data = state[`formattedData${id}`].y2.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
+        state[`chartData${id}`].datasets[3].data = state[`formattedData${id}`].y3.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
+
+        state[`chartData${id}`].datasets[2].borderColor = state.data[id].colors['y2'];
+        state[`chartData${id}`].datasets[3].borderColor = state.data[id].colors['y3'];
+        state[`chartData${id}`].datasets[2].label = state.data[id].names['y2'];
+        state[`chartData${id}`].datasets[3].label = state.data[id].names['y3'];
+      }
     },
     updateChartData(state, id) {
       state[`chartData${id}`].labels = state[`formattedData${id}`].labels.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
       state[`chartData${id}`].datasets[0].data = state[`formattedData${id}`].y0.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
       state[`chartData${id}`].datasets[1].data = state[`formattedData${id}`].y1.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
+
+      if (id === 4) {
+        state[`chartData${id}`].datasets[2].data = state[`formattedData${id}`].y2.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
+        state[`chartData${id}`].datasets[3].data = state[`formattedData${id}`].y3.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
+      }
     },
     rightPlusLegend(state, id) {
       if (state[`legend${id}`].range.right < state[`formattedData${id}`].labels.length) state[`legend${id}`].range.right++;

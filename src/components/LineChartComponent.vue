@@ -2,10 +2,10 @@
     <div>
         <line-chart class="chart" v-if="componentState" :chart-data="chartData" :height="chartHeight" :options="options"></line-chart>
 
-        <vue-slider @change="doChangeAll(legend.range.all)" :min-range="10" :max="formattedData0.labels.length"
-                    tooltip="none" v-model="legend.range.all"></vue-slider>
+        <vue-slider @change="doChangeAll(legend.range.all)" :min-range="10" :max="formattedData.labels.length"
+                    v-model="legend.range.all"></vue-slider>
 
-        <div class="d-flex">
+        <div v-if="id < 4" class="d-flex">
             <div class="select first">
                 <label class="slider">
                     <input @change="updateComp" id="first" type="checkbox" v-model="chartData.datasets[0].hidden">
@@ -18,6 +18,37 @@
                     <input @change="updateComp" id="second" type="checkbox" v-model="chartData.datasets[1].hidden">
                     <span class="circle"></span>
                     <span class="name">{{chartData.datasets[1].label}}</span>
+                </label>
+            </div>
+        </div>
+
+        <div v-else class="d-flex">
+            <div class="select first last">
+                <label class="slider">
+                    <input @change="updateComp" id="first" type="checkbox" v-model="chartData.datasets[0].hidden">
+                    <span class="circle"></span>
+                    <span class="name">{{chartData.datasets[0].label}}</span>
+                </label>
+            </div>
+            <div class="select second last">
+                <label class="slider">
+                    <input @change="updateComp" id="second" type="checkbox" v-model="chartData.datasets[1].hidden">
+                    <span class="circle"></span>
+                    <span class="name">{{chartData.datasets[1].label}}</span>
+                </label>
+            </div>
+            <div class="select second third">
+                <label class="slider">
+                    <input @change="updateComp" id="third" type="checkbox" v-model="chartData.datasets[2].hidden">
+                    <span class="circle"></span>
+                    <span class="name">{{chartData.datasets[2].label}}</span>
+                </label>
+            </div>
+            <div class="select second fourth">
+                <label class="slider">
+                    <input @change="updateComp" id="fourth" type="checkbox" v-model="chartData.datasets[3].hidden">
+                    <span class="circle"></span>
+                    <span class="name">{{chartData.datasets[3].label}}</span>
                 </label>
             </div>
         </div>
@@ -56,6 +87,7 @@
                 `chartData1`, `legend1`, `formattedData1`,
                 `chartData2`, `legend2`, `formattedData2`,
                 `chartData3`, `legend3`, `formattedData3`,
+                `chartData4`, `legend4`, `formattedData4`,
             ]),
             chartHeight() {
                 let height = 0;
