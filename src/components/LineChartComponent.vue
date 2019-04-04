@@ -3,7 +3,7 @@
         <line-chart class="chart" v-if="componentState" :chart-data="chartData" :height="chartHeight" :options="options"></line-chart>
 
         <vue-slider @change="doChangeAll(legend.range.all)" :min-range="10" :max="formattedData.labels.length"
-                    v-model="legend.range.all"></vue-slider>
+                    tooltip="none" v-model="legend.range.all"></vue-slider>
 
         <div v-if="id < 4" class="d-flex">
             <div class="select first">
