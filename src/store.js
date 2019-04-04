@@ -15,12 +15,27 @@ export default new Vuex.Store({
       legend: false,
       animation: false
     },
-    formattedData: {
+    formattedData0: {
       labels: null,
       y0: null,
       y1: null
     },
-    chartData: {
+    formattedData1: {
+      labels: null,
+      y0: null,
+      y1: null
+    },
+    formattedData2: {
+      labels: null,
+      y0: null,
+      y1: null
+    },
+    formattedData3: {
+      labels: null,
+      y0: null,
+      y1: null
+    },
+    chartData0: {
       labels: null,
       datasets: [
         {
@@ -39,7 +54,85 @@ export default new Vuex.Store({
         },
       ]
     },
-    legend: {
+    chartData1: {
+      labels: null,
+      datasets: [
+        {
+          data: null,
+          lineTension: 0,
+          fill: false,
+          pointRadius: 0,
+          hidden: false
+        },
+        {
+          data: null,
+          lineTension: 0,
+          fill: false,
+          pointRadius: 0,
+          hidden: false
+        },
+      ]
+    },
+    chartData2: {
+      labels: null,
+      datasets: [
+        {
+          data: null,
+          lineTension: 0,
+          fill: false,
+          pointRadius: 0,
+          hidden: false
+        },
+        {
+          data: null,
+          lineTension: 0,
+          fill: false,
+          pointRadius: 0,
+          hidden: false
+        },
+      ]
+    },
+    chartData3: {
+      labels: null,
+      datasets: [
+        {
+          data: null,
+          lineTension: 0,
+          fill: false,
+          pointRadius: 0,
+          hidden: false
+        },
+        {
+          data: null,
+          lineTension: 0,
+          fill: false,
+          pointRadius: 0,
+          hidden: false
+        },
+      ]
+    },
+    legend0: {
+      range: {
+        left: 50,
+        right: 60,
+        all: null
+      }
+    },
+    legend1: {
+      range: {
+        left: 50,
+        right: 60,
+        all: null
+      }
+    },
+    legend2: {
+      range: {
+        left: 50,
+        right: 60,
+        all: null
+      }
+    },
+    legend3: {
       range: {
         left: 50,
         right: 60,
@@ -54,105 +147,132 @@ export default new Vuex.Store({
     options(state) {
       return state.options;
     },
-    formattedData(state) {
-      return state.formattedData;
+    formattedData0(state) {
+      return state.formattedData0;
     },
-    chartData(state) {
-      return state.chartData;
+    formattedData1(state) {
+      return state.formattedData1;
     },
-    legend(state) {
-      return state.legend;
+    formattedData2(state) {
+      return state.formattedData2;
+    },
+    formattedData3(state) {
+      return state.formattedData3;
+    },
+    chartData0(state) {
+      return state.chartData0;
+    },
+    chartData1(state) {
+      return state.chartData1;
+    },
+    chartData2(state) {
+      return state.chartData2;
+    },
+    chartData3(state) {
+      return state.chartData3;
+    },
+    legend0(state) {
+      return state.legend0;
+    },
+    legend1(state) {
+      return state.legend1;
+    },
+    legend2(state) {
+      return state.legend2;
+    },
+    legend3(state) {
+      return state.legend3;
     }
   },
   mutations: {
-    setData(state) {
-      state.legend.range.all = [state.legend.range.left, state.legend.range.right];
+    setData(state, id) {
+      state[`legend${id}`].range.all = [state[`legend${id}`].range.left, state[`legend${id}`].range.right];
 
-      state.formattedData.labels = data[0].columns[0].filter(item => {
+      state[`formattedData${id}`].labels = data[id].columns[0].filter(item => {
         if (item !== 'x') {
           return item;
         }
       });
 
-      state.formattedData.labels = state.formattedData.labels.map(item => {
+      state[`formattedData${id}`].labels = state[`formattedData${id}`].labels.map(item => {
         return moment(item).format('MMM D');
       });
 
-      state.formattedData.y0 = data[0].columns[1].filter(item => {
+      state[`formattedData${id}`].y0 = data[id].columns[1].filter(item => {
         if (item !== 'y0') {
           return item;
         }
       });
 
-      state.formattedData.y1 = data[0].columns[2].filter(item => {
+      state[`formattedData${id}`].y1 = data[id].columns[2].filter(item => {
         if (item !== 'y1') {
           return item;
         }
       });
 
       // Chart Data settings
-      state.chartData.labels = state.formattedData.labels.slice(state.legend.range.left, state.legend.range.right);
+      state[`chartData${id}`].labels = state[`formattedData${id}`].labels.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
 
-      state.chartData.datasets[0].data = state.formattedData.y0.slice(state.legend.range.left, state.legend.range.right);
-      state.chartData.datasets[1].data = state.formattedData.y1.slice(state.legend.range.left, state.legend.range.right);
+      state[`chartData${id}`].datasets[0].data = state[`formattedData${id}`].y0.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
+      state[`chartData${id}`].datasets[1].data = state[`formattedData${id}`].y1.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
 
-      state.chartData.datasets[0].borderColor = data[0].colors['y0'];
-      state.chartData.datasets[1].borderColor = data[0].colors['y1'];
-      state.chartData.datasets[0].label = data[0].names['y0'];
-      state.chartData.datasets[1].label = data[0].names['y1'];
+      state[`chartData${id}`].datasets[0].borderColor = data[id].colors['y0'];
+      state[`chartData${id}`].datasets[1].borderColor = data[id].colors['y1'];
+      state[`chartData${id}`].datasets[0].label = data[id].names['y0'];
+      state[`chartData${id}`].datasets[1].label = data[id].names['y1'];
     },
-    updateChartData(state) {
-      state.chartData.labels = state.formattedData.labels.slice(state.legend.range.left, state.legend.range.right);
-      state.chartData.datasets[0].data = state.formattedData.y0.slice(state.legend.range.left, state.legend.range.right);
-      state.chartData.datasets[1].data = state.formattedData.y1.slice(state.legend.range.left, state.legend.range.right);
+    updateChartData(state, id) {
+      state[`chartData${id}`].labels = state[`formattedData${id}`].labels.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
+      state[`chartData${id}`].datasets[0].data = state[`formattedData${id}`].y0.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
+      state[`chartData${id}`].datasets[1].data = state[`formattedData${id}`].y1.slice(state[`legend${id}`].range.left, state[`legend${id}`].range.right);
     },
-    rightPlusLegend(state) {
-      if (state.legend.range.right < state.formattedData.labels.length) state.legend.range.right++;
+    rightPlusLegend(state, id) {
+      if (state[`legend${id}`].range.right < state[`formattedData${id}`].labels.length) state[`legend${id}`].range.right++;
     },
-    rightMinusLegend(state) {
-      if (state.legend.range.right > (state.legend.range.left + 2)) state.legend.range.right--;
+    rightMinusLegend(state, id) {
+      if (state[`legend${id}`].range.right > (state[`legend${id}`].range.left + 2)) state[`legend${id}`].range.right--;
     },
-    leftPlusLegend(state) {
-      if (state.legend.range.left < (state.legend.range.right - 2)) state.legend.range.left++;
+    leftPlusLegend(state, id) {
+      if (state[`legend${id}`].range.left < (state[`legend${id}`].range.right - 2)) state[`legend${id}`].range.left++;
     },
-    leftMinusLegend(state) {
-      if (state.legend.range.left > 0) state.legend.range.left--;
+    leftMinusLegend(state, id) {
+      if (state[`legend${id}`].range.left > 0) state[`legend${id}`].range.left--;
     },
-    legendRight(state) {
-      if (state.legend.range.right < state.formattedData.labels.length) {
-        state.legend.range.left++;
-        state.legend.range.right++;
+    legendRight(state, id) {
+      if (state[`legend${id}`].range.right < state[`formattedData${id}`].labels.length) {
+        state[`legend${id}`].range.left++;
+        state[`legend${id}`].range.right++;
       }
     },
-    legendLeft(state) {
-      if (state.legend.range.left > 0) {
-        state.legend.range.left--;
-        state.legend.range.right--;
+    legendLeft(state, id) {
+      if (state[`legend${id}`].range.left > 0) {
+        state[`legend${id}`].range.left--;
+        state[`legend${id}`].range.right--;
       }
     }
   },
   actions: {
     changeAll(context, payload) {
-      let left = context.state.legend.range.left;
-      let right = context.state.legend.range.right;
-      context.state.legend.range.left = payload[0];
-      context.state.legend.range.right = payload[1];
+      let left = context.state[`legend${payload.id}`].range.left;
+      let right = context.state[`legend${payload.id}`].range.right;
+      context.state[`legend${payload.id}`].range.left = payload.all[0];
+      context.state[`legend${payload.id}`].range.right = payload.all[1];
 
-      if (context.state.legend.range.left < left && context.state.legend.range.right < right) {
-        context.commit('legendLeft');
-      } else if (context.state.legend.range.left < left && context.state.legend.range.right === right) {
-        context.commit('leftMinusLegend');
-      } else if (context.state.legend.range.left > left && context.state.legend.range.right === right) {
-        context.commit('leftPlusLegend');
-      } else if (context.state.legend.range.left === left && context.state.legend.range.right > right) {
-        context.commit('rightPlusLegend');
-      } else if (context.state.legend.range.left === left && context.state.legend.range.right < right) {
-        context.commit('rightMinusLegend');
-      } else if (context.state.legend.range.left > left && context.state.legend.range.right > right) {
-        context.commit('legendRight');
+      if (context.state[`legend${payload.id}`].range.left < left && context.state[`legend${payload.id}`].range.right < right) {
+        context.commit('legendLeft', payload.id);
+      } else if (context.state[`legend${payload.id}`].range.left < left && context.state[`legend${payload.id}`].range.right === right) {
+        context.commit('leftMinusLegend', payload.id);
+      } else if (context.state[`legend${payload.id}`].range.left > left && context.state[`legend${payload.id}`].range.right === right) {
+        context.commit('leftPlusLegend', payload.id);
+      } else if (context.state[`legend${payload.id}`].range.left === left && context.state[`legend${payload.id}`].range.right > right) {
+        context.commit('rightPlusLegend', payload.id);
+      } else if (context.state[`legend${payload.id}`].range.left === left && context.state[`legend${payload.id}`].range.right < right) {
+        context.commit('rightMinusLegend', payload.id);
+      } else if (context.state[`legend${payload.id}`].range.left > left && context.state[`legend${payload.id}`].range.right > right) {
+        context.commit('legendRight', payload.id);
       }
 
-      context.commit('updateChartData');
+      context.commit('updateChartData', payload.id);
     }
   }
 })

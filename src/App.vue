@@ -9,7 +9,15 @@
         </label>
       </div>
     </div>
-    <line-chart-component class="chart-component"></line-chart-component>
+
+    <line-chart-component class="chart-component" :id="0"></line-chart-component>
+    <line-chart-component class="chart-component" :id="1"></line-chart-component>
+    <line-chart-component class="chart-component" :id="2"></line-chart-component>
+    <line-chart-component class="chart-component" :id="3"></line-chart-component>
+
+    <footer>
+      Made by Bodasooqa for Telegram
+    </footer>
   </div>
 </template>
 
@@ -40,11 +48,34 @@ export default {
   #app {
     padding: 15px;
     transition: all 0.3s;
-    height: calc(100vh - 30px);
+
+    h2 {
+      -webkit-transition: all 0.3s;
+      -moz-transition: all 0.3s;
+      -ms-transition: all 0.3s;
+      -o-transition: all 0.3s;
+      transition: all 0.3s;
+    }
 
     button {
       background: none;
     }
+  }
+
+  .chart-component {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e4e4e4;
+  }
+
+  footer {
+    text-align: center;
+    padding: 0 0 1rem;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
   }
 
   .header {
@@ -66,6 +97,9 @@ export default {
       .name {
         color: #fff;
       }
+    }
+    footer {
+      color: #ffffff;
     }
   }
   
@@ -176,6 +210,11 @@ export default {
   }
   span.name {
     position: absolute;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
     top: -3px;
     left: 2.8rem;
   }
